@@ -13,6 +13,7 @@ import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base
 import Filter from "./Filter";
 import User from "./User";
 import DeleteClient from "./Delete";
+import EditClient from "./Edit";
 
 const blue = {
   100: "#DAECFF",
@@ -141,13 +142,22 @@ const Clients = () => {
         <div className="flex gap-[10px]">
           {
             loggedUser?.role != 'employee' &&
-            <Tooltip placement="top" title="Delete" arrow>
-              {" "}
-              <PiTrashLight
-                onClick={() => handleOpenDeleteModal(params.row._id)}
-                className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
-              />
-            </Tooltip>
+            <>
+              <Tooltip placement="top" title="Delete" arrow>
+                {" "}
+                <PiTrashLight
+                  onClick={() => handleOpenDeleteModal(params.row._id)}
+                  className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
+                />
+              </Tooltip>
+              <Tooltip placement="top" title="Edit" arrow>
+                {" "}
+                <CiEdit
+                  onClick={() => handleOpenEditModal(params.row)}
+                  className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
+                />
+              </Tooltip>
+            </>
           }
         </div>
       ),
@@ -174,8 +184,8 @@ const Clients = () => {
   const handleClickOpen = () => {
     setOpenUser(true);
   };
-  const handleOpenEditModal = (employee) => {
-    dispatch(getUserReducer(employee));
+  const handleOpenEditModal = (client) => {
+    dispatch(getUserReducer(client));
     setOpenEditModal(true);
   };
   const handleOpenDeleteModal = (userId) => {
@@ -185,7 +195,7 @@ const Clients = () => {
 
   return (
     <div className="w-full">
-
+      <EditClient open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteClient open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
       <User open={openUser} setOpen={setOpenUser} />
