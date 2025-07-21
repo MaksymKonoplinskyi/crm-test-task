@@ -119,7 +119,15 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
     dispatch(getTasks());
   }, []);
 
-  /////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////
+  /////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////
+  const getGMTOffset = () => {
+    const offset = new Date().getTimezoneOffset();
+    const hours = Math.floor(Math.abs(offset) / 60);
+    const minutes = Math.abs(offset) % 60;
+    const sign = offset <= 0 ? '+' : '-';
+    return `(GMT${sign}${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')})`;
+  };
+
   const handleLogout = () => {
     dispatch(logout(navigate));
   };
@@ -145,7 +153,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
             </IconButton>
             <div>
               <p className="text-sky-400 text-xl gap-1 flex items-center">
-                <PiTimerLight className="text-[25px]" /> {date.toLocaleTimeString()}
+                <PiTimerLight className="text-[25px]" /> {date.toLocaleTimeString()} {getGMTOffset()}
               </p>
             </div>
           </div>
